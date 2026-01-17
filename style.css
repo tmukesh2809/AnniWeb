@@ -1,0 +1,495 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === FLOATING BACKGROUND BLOBS (GUARANTEED) === */
+
+.bg-blobs {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
+  .blob {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(255,182,193,0.9) 0%, transparent 70%);
+    filter: blur(30px);
+    opacity: 0.7;
+    animation: blobFloat 26s ease-in-out infinite alternate;
+  }
+  
+  
+  /* Left blob */
+  .blob1 {
+    top: 15%;
+    left: -120px;
+  }
+  
+  /* Right blob */
+  .blob2 {
+    bottom: 10%;
+    right: -120px;
+    animation-delay: 4s;
+  }
+  
+  /* Floating animation */
+  @keyframes blobFloat {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(80px, -80px);
+    }
+  }
+  
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background:
+      radial-gradient(circle at 25% 20%, #ffb3c6 0%, transparent 45%),
+      radial-gradient(circle at 75% 30%, #ff8fab 0%, transparent 50%),
+      linear-gradient(135deg, #fff0f5, #ffd6e8);
+    color: #333;
+    transition: 0.3s;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-radial-gradient(
+        circle,
+        rgba(255,255,255,0.08) 0px,
+        rgba(255,255,255,0.08) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #ffd1dc, transparent 70%);
+  z-index: -1;
+  animation: floatBlob 20s infinite alternate;
+}
+
+body::before {
+  top: 10%;
+  left: -100px;
+}
+
+body::after {
+  bottom: 10%;
+  right: -100px;
+}
+
+@keyframes floatBlob {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  to {
+    transform: translateY(-40px) translateX(40px);
+  }
+}
+
+
+body.dark {
+    background:
+      radial-gradient(circle at 30% 20%, #2a2a3d 0%, transparent 40%),
+      radial-gradient(circle at 70% 40%, #1f1f2e 0%, transparent 45%),
+      linear-gradient(135deg, #0f0f1a, #000);
+    color: #eee;
+  }
+  
+
+header {
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+
+header h1 {
+  font-family: 'Pacifico', cursive;
+  color: #ff6f91;
+  font-size: 2rem;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1100px;
+    margin: auto;
+  }
+  
+
+.card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 111, 145, 0.88);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover .overlay,
+.card:active .overlay {
+  opacity: 1;
+}
+
+/* Hearts */
+.hearts::before {
+  content: "💗 💕 💖 💗 💕 💖";
+  position: fixed;
+  top: -10%;
+  width: 100%;
+  text-align: center;
+  animation: floatHearts 12s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes floatHearts {
+  100% { transform: translateY(120vh); }
+}
+
+/* Buttons */
+#music-btn, #dark-btn {
+  position: fixed;
+  right: 15px;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+#music-btn {
+  top: 15px;
+  background: #ff6f91;
+  color: white;
+}
+
+#dark-btn {
+  bottom: 20px;
+  background: #333;
+  color: white;
+}
+
+/* === SWEET LOVE NOTE MODAL === */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .love-note {
+    background:
+      linear-gradient(135deg, #fff5f8, #ffe1ec);
+    padding: 2.2rem 1.8rem;
+    border-radius: 28px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(255, 111, 145, 0.35);
+    animation: notePop 0.45s ease;
+    position: relative;
+  }
+  
+  /* Month title */
+  .love-note h2 {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.6rem;
+    color: #ff6f91;
+    margin-bottom: 1rem;
+  }
+  
+  /* Love text */
+  .love-note p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #444;
+    padding: 0 0.5rem;
+  }
+  
+  /* Close button */
+  .close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #ff6f91;
+    transition: transform 0.2s ease;
+  }
+  
+  .close:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Entry animation */
+  @keyframes notePop {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+
+/* Tablet */
+@media (max-width: 900px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+/* Mobile */
+@media (max-width: 500px) {
+    .gallery {
+    grid-template-columns: 1fr;
+    }
+}
+
+/* === ANIMATED HEADER === */
+
+.animated-header {
+    text-align: center;
+    padding: 4rem 1rem 2.5rem;
+  }
+  
+  #animated-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 3rem;
+    color: #ff6f91;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+  
+  /* Subtitle */
+  .subtitle {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+  }
+  
+  /* Glow animation */
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 5px #ffd1dc;
+    }
+    to {
+      text-shadow: 0 0 18px #ff9aa2;
+    }
+  }
+  
+  /* Letter animation */
+  .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(15px);
+    animation: rise 0.6s forwards;
+  }
+  
+  @keyframes rise {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Mobile scaling */
+  @media (max-width: 600px) {
+    #animated-title {
+      font-size: 2.2rem;
+    }
+  }
+
+/* === SIGNATURE HEADING === */
+
+.signature-header {
+    text-align: center;
+    padding: 5rem 1.5rem 3rem;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  /* Small buildup line */
+  .preline {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 1rem;
+  }
+  
+  /* Main statement */
+  .main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    line-height: 1.15;
+    color: #2b2b2b;
+  }
+  
+  /* Emphasis */
+  .main-title em {
+    display: block;
+    font-style: normal;
+    color: #ff6f91;
+    font-size: 3.6rem;
+    letter-spacing: 1px;
+    margin: 0.2rem 0;
+  }
+  
+  /* Closing line */
+  .subline {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: #aaa;
+  }
+  
+  /* Mobile tuning */
+  @media (max-width: 600px) {
+    .main-title {
+      font-size: 2.4rem;
+    }
+  
+    .main-title em {
+      font-size: 2.8rem;
+    }
+  }
+
+  footer {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+
+  /* === LOVE LETTER FOOTER === */
+
+.love-footer {
+    max-width: 820px;
+    margin: 4rem auto 3rem;
+    padding: 2.5rem 2rem;
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 30px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 20px 40px rgba(255, 111, 145, 0.25);
+  }
+  
+  /* Heading */
+  .love-footer h2 {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    font-size: 2rem;
+    color: #ff6f91;
+    margin-bottom: 2rem;
+  }
+  
+  /* Paragraphs */
+  .love-footer p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 1.8rem;
+  }
+  
+  /* Final line */
+  .love-footer .signature {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ff6f91;
+    margin-top: 2.5rem;
+  }
+  
+  /* Mobile tuning */
+  @media (max-width: 600px) {
+    .love-footer {
+      padding: 2rem 1.5rem;
+    }
+  
+    .love-footer h2 {
+      font-size: 1.7rem;
+    }
+  
+    .love-footer p {
+      font-size: 0.9rem;
+    }
+  }
+  /* === HANDWRITTEN SIGNATURE === */
+
+.handwritten-sign {
+    text-align: right;
+    font-family: 'Allura', cursive;
+    font-size: 2.1rem;
+    color: #ff6f91;
+    margin-top: 1.2rem;
+    opacity: 0.9;
+    transform: rotate(-2deg);
+  }
+  
+  /* Mobile */
+  @media (max-width: 600px) {
+    .handwritten-sign {
+      font-size: 1.8rem;
+    }
+  }
+  
+  
+  
+
+
